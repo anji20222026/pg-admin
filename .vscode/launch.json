@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "chrome",
+        "request": "launch",
+        "name": "Debug Vite + SolidJS",
+        "url": "http://localhost:3000",
+        "webRoot": "${workspaceFolder}",
+        "sourceMapPathOverrides": {
+          "webpack:///*": "${workspaceFolder}/*"
+        }
+      },
+      {
+        "type": "node",
+        "request": "attach",
+        "name": "Attach to Vite",
+        "port": 9229,
+        "restart": true,
+        "sourceMaps": true,
+        "skipFiles": ["<node_internals>/**"]
+      }
+    ]
+  }
+  
