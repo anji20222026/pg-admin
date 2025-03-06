@@ -1,32 +1,56 @@
-import { onMount } from "solid-js";
+import { createSignal, onMount, Suspense, createRoot } from "solid-js";
 import 'flowbite/dist/flowbite.css'; // 确保样式生效
 import "flowbite";
 import routes from "~solid-pages";
 
+import Login from "./Login";
+import { Navigate, Route, Router } from "@solidjs/router";
 
-function App() {
+// 用 createRoot 确保信号在正确的作用域中
+const AuthStore = createRoot(() => {
+  const [isAuthenticated, setIsAuthenticated] = createSignal(false);
+
   onMount(() => {
-    import("flowbite").then(({ initFlowbite }) => {
-      initFlowbite(); // 初始化 Flowbite 的交互功能
-    });
+    // 读取 localStorage 里的用户名和密码，如果匹配则认为用户已登录
+    const savedUser = localStorage.getItem("username");
+    const savedPass = localStorage.getItem("password");
+
+    if (savedUser === "admin" && savedPass === "123456") {
+      setIsAuthenticated(true);
+    }
   });
 
+  return { isAuthenticated, setIsAuthenticated };
+});
+
+function ProtectedRoute({ component: Component }: any) {
+  return AuthStore.isAuthenticated() ? <Component /> : <Navigate href="/login" />;
+}
+
+function App() {
+  const renderProtectedRoutes = (routeList: any[]) =>
+    routeList.map((route) => {
+      const LazyComponent = route.component;
+      return (
+        <Route
+          path={route.path}
+          component={() => (
+            <Suspense fallback={<div>Loading...</div>}>
+              <ProtectedRoute component={LazyComponent} />
+            </Suspense>
+          )}
+        >
+          {route.children && renderProtectedRoutes(route.children)}
+        </Route>
+      );
+    });
+
   return (
-    <div>
-      <h1>欢迎使用 Solid JS 和 Flowbite</h1>
-      {/* 使用 Flowbite 组件，例如按钮 */}
-      
-<button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Default</button>
-<button type="button" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Alternative</button>
-<button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Dark</button>
-<button type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Light</button>
-<button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Green</button>
-<button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Red</button>
-<button type="button" class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">Yellow</button>
-<button type="button" class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Purple</button>
-
-
-    </div>
+    <Router>
+      <Route path="/login" component={Login} />
+      {renderProtectedRoutes(routes)}
+      <Route path="*" component={() => <div>404 Not Found</div>} />
+    </Router>
   );
 }
 

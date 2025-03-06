@@ -1,10 +1,40 @@
+// pages/index.tsx
+import { Component } from 'solid-js';
+import Layout from '../components/Layout';
 
-export default function Index() {
+const Home: Component = () => {
   return (
-    <main>
-      <div class="w-full flex flex-col items-center">
-       hello
-      </div>
-    </main>
+    <Layout>
+      <h2>Welcome to Home Page</h2>
+      <p>This is the main content area</p>
+      <h2>Welcome to Home Page</h2>
+      <p>This is the main content area</p>
+      <h2>Welcome to Home Page</h2>
+      <p>This is the main content area</p>
+      <h2>Welcome to Home Page</h2>
+      <p>This is the main content area</p>
+
+            <h2>Welcome to Home Page</h2>
+      <p>This is the main content area</p>
+      <h2>Welcome to Home Page</h2>
+      <p>This is the main content area</p>
+      <h2>Welcome to Home Page</h2>
+      <p>This is the main content area</p>
+      <h2>Welcome to Home Page</h2>
+      <p>This is the main content area</p>
+      <h2>Welcome to Home Page</h2>
+      <p>This is the main content area</p>
+      <h2>Welcome to Home Page</h2>
+      <p>This is the main content area</p>
+      <h2>Welcome to Home Page</h2>
+      <p>This is the main content area</p>
+      <h2>Welcome to Home Page</h2>
+      <p>This is the main content area</p>
+      <h2>Welcome to Home Page</h2>
+      <p>This is the main content area</p>
+      
+    </Layout>
   );
-}
+};
+
+export default Home;
