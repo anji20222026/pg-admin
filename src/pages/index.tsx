@@ -5,33 +5,9 @@ import Layout from '../components/Layout';
 const Home: Component = () => {
   return (
     <Layout>
-      <h2>Welcome to Home Page</h2>
-      <p>This is the main content area</p>
-      <h2>Welcome to Home Page</h2>
-      <p>This is the main content area</p>
-      <h2>Welcome to Home Page</h2>
-      <p>This is the main content area</p>
-      <h2>Welcome to Home Page</h2>
-      <p>This is the main content area</p>
-
-            <h2>Welcome to Home Page</h2>
-      <p>This is the main content area</p>
-      <h2>Welcome to Home Page</h2>
-      <p>This is the main content area</p>
-      <h2>Welcome to Home Page</h2>
-      <p>This is the main content area</p>
-      <h2>Welcome to Home Page</h2>
-      <p>This is the main content area</p>
-      <h2>Welcome to Home Page</h2>
-      <p>This is the main content area</p>
-      <h2>Welcome to Home Page</h2>
-      <p>This is the main content area</p>
-      <h2>Welcome to Home Page</h2>
-      <p>This is the main content area</p>
-      <h2>Welcome to Home Page</h2>
-      <p>This is the main content area</p>
-      <h2>Welcome to Home Page</h2>
-      <p>This is the main content area</p>
+        <div class="max-w-4xl mx-auto page-content">
+          <div class="space-y-8"> </div>
+        </div>
       
     </Layout>
   );

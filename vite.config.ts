@@ -3,12 +3,16 @@
 import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
 import pages from 'vite-plugin-pages';
+import checker from 'vite-plugin-checker';
+
 
 export default defineConfig({
   plugins: [pages({
     extensions: ["tsx", "jsx"],
     importMode: 'async',
-  }), solidPlugin()],
+  }), solidPlugin(),
+  checker({ typescript: true }) // 确保 TypeScript 的大小写错误会被检测
+  ],
 
   build: {
     target: 'esnext',
